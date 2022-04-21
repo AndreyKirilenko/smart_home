@@ -1,0 +1,61 @@
+{% extends 'index.html' %}
+
+{% block title %}Приборы для умного дома{% endblock %}
+
+{% block content %}
+  <div >
+    <h5 class="card-header">Приборы для умного дома</h5>
+    <div class="card-body">
+      {% if user.is_authenticated %}
+        <p><a href="#">Добавить прибор</a></p>
+      {% endif %}
+
+   <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Наименование</th>
+        <th scope="col">Краткое описание</th>
+        <th scope="col">Тип</th>
+        <th scope="col">Назначение</th>
+        <th scope="col">Производитель</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% for device in devices %}
+
+        <tr>
+          <td><img src="{{device.image.url}}" style="height:50px"></td>
+          <td><a href="{% url "device_detail" device.id %}">{{device.name}}</a></td>
+          <td>{{device.short_description}}</td>
+          <td>#</td>
+          <td style="font-size: 0.8em;">{% for specific in device.specific.all %}
+            {{specific}}, 
+            {% endfor %}
+          </td>
+          <td>{{device.manufacturer}}</td>
+        </tr>
+        {% if forloop.last %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        {% endif %}
+      {% empty %}
+      Пока ничего нет)
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+
+
+    
+    </div>
+  </div>
+{% endblock %}

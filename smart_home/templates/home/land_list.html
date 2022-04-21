@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+
+{% block title %}Мои умные дома{% endblock %}
+
+{% block content %}
+  <div >
+    <h5 class="card-header">Мои умные дома</h5>
+    <div class="card-body">
+      {% if user.is_authenticated %}
+        <p><a href="#">Добавить умный дом</a></p>
+      {% endif %}
+
+   <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% for land in lands %}
+
+        <tr>
+          <td><img src="{{land.image.url}}" style="height:200px"></td>
+          <td>
+              <div style="font-size:1.8em;"><a href="{% url "land_detail" land.id %}">{{land.name}}</a></div>
+              <div style="padding:10px 0;">{{land.description|truncatechars:100}}</div>
+              <div style="font-size:0.8em;">{{land.address}}</div>
+              <div style="font-size:0.8em;">{{land.author}}</div>
+              <div style="font-size:0.8em;">{{land.date_create}}</div>
+            
+        </tr>
+        {% if forloop.last %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        {% endif %}
+      {% empty %}
+      Пока ничего нет)
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+
+
+    
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block scripts %}
+{% comment %} <script src="{% static 'js/main.js' %}" defer ></script>
+
+{% endcomment %}
+{% endblock %}
+
+
+{% block title %}{{ device.name }}{% endblock %}
+
+{% block content %}
+<div style="padding:20px; ">
+    <div style="width:60%; padding:20px; float: left; text-align: right">
+        <div ><h1>{{ device.name }}</h1></div>
+        <div style="font-size: 1.3em;">{{ device.short_description }}</div>
+        <div><a href="{{ device.manufacturer.site }}"><strong>{{ device.manufacturer }}</strong></a></div>
+    </div>
+    <div>
+        <img style="height:300px" src="{{ device.image.url}}"/>
+    </div>
+</div>
+<div style="padding:20px; border-top: 1px solid #ccc"> 
+    
+    {{ device.description }}
+</br>
+</div>
+
+<div style="padding:20px; border-top: 1px solid #ccc; display: flex; "> 
+    
+    {% if device.specific %}
+    <div style="min-width:50%; margin: 10px">
+        <h5>Назначение прибора</h5>
+        <ul>
+            {% for specific in device.specific.all %}
+                <li>{{specific}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif%}
+
+</div>
+
+
+<table class="table table-bordered table-sm" style="width:100%">
+    <thead>
+      <tr style="text-align: center;">
+        <th scope="col">Параметр</th>
+        <th scope="col">Значение</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% if inputs %}
+        <tr>
+            <td colspan=2 style="text-align: center; background-color: #e9ecef;"><strong>Входы</strong></td>
+        </tr>
+        {% for input in inputs %}
+        <tr>
+            <td>Колличество входов:</td>
+            <td>{{ input.quantity }}</td>
+        </tr>
+        <tr>
+            <td>
+                Назначение входов
+            </td>
+            <td>
+                <ul>
+                {% if input.pin.general_purpose %}<li>Вход общего назначения</li>{% endif %}
+                {% if input.pin.counting_signals %}<li>Счет сигналов</li>{% endif %}
+                {% if input.pin.frequency_measurement %}<li>Измерение частоты</li>{% endif %}
+                {% if input.pin.direct_control %}<li>Прямое управление реле</li>{% endif %}
+                {% if input.pin.mapping_matrix %}<li>Настройка с помощью mapping-матрицы</li>{% endif %}
+                </li>
+            </td>
+        </tr>
+    </tbody>
+    <tbody>
+        {% endfor %}
+        {% endif %}
+
+        {% if outputs %}
+        <tr><td colspan=2 style="text-align: center; background-color: #e9ecef;"><strong>Выходы</strong></td></tr>
+        {% for output in outputs %}
+        <tr><td>Колличество выходов:</td><td>{{ output.quantity }}</td></tr>
+        <tr><td>Тип:</td><td>{{ output.pin.type }}</td></tr>
+        <tr><td>Колличество выходов:</td><td>{{ output.quantity }}</td></tr>
+            {% if output.pin.voltage_ac %}<tr><td>Максимальное переменное напряжение (AC):</td><td>{{ output.pin.voltage_ac }}В</td></tr>{% endif %}
+            {% if output.pin.voltage_dc %}<tr><td>Максимальное постоянное напряжение (DC):</td><td>{{ output.pin.voltage_dc }}В</td></tr>{% endif %}
+            {% if output.pin.nominal_current %}<tr><td>Номинальный ток:</td><td>{{ output.pin.nominal_current }}А</td></tr>{% endif %}
+            {% if output.pin.maximal_current %}<tr><td>Максимальный длительный ток:</td><td>{{ output.pin.maximal_current }}А</td></tr>{% endif %}
+            {% if output.pin.starting_current %}<tr><td>Максимальный пусковой ток:</td><td>{{ output.pin.starting_current }}А</td></tr>{% endif %}
+            {% if output.pin.pwm %}<tr><td>Частота ШИМ:</td><td>{{ output.pin.pwm }}Гц</td></tr>{% endif %}
+   
+        {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+
+
+
+
+{% endblock %}
