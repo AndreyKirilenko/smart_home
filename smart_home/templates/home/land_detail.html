@@ -50,18 +50,19 @@
                 <div style="font-size: 0.8em; padding-left: 40px">Напряжение питания: {{ equipment.voltage }} В.</div>
                 <div style="font-size: 0.8em; padding-left: 40px">Потребление тока: {{ equipment.current }} Вт.</div>
                 <div style="font-size: 0.8em; padding-left: 40px">Стартовый ток: {{ equipment.start_current }} А.</div>
-                <div id="drop-doun" style="font-size: 0.8em; padding-left: 40px">
-                  <span style="strelka-img"><img id="img-strelka"  src="{% static 'images/strelka_mini.jpg' %}" /></span>
-                  Интерфейс управления: <div id="hidden_box" class="not-visible" style=" padding-left: 40px">
-                  {% if equipment.interface %}
-                  {% for interface in equipment.interface.all %}
-                  {{ interface.name }}
-                  {% if interface.description %}{{ interface.description }}{% endif %}
-                  {% if interface.voltage %}{{ interface.voltage }}{% endif %}
-                  {% if interface.current %}{{ interface.current }}{% endif %}
-                  {% if interface.start_current %}{{ interface.start_current }}{% endif %}
-                  {% endfor %}
-                  {% endif %}
+                <div id="drop-doun-{{equipment.id}}" class="drop-doun" >
+                  <span style="strelka-img"><img id="img-strelka-{{equipment.id}}"  src="{% static 'images/strelka_mini.jpg' %}" /></span>
+                  Интерфейс управления: 
+                  <div id="hidden-box-{{equipment.id}}" class="not-visible" style=" padding-left: 40px">
+                    {% if equipment.interface %}
+                    {% for interface in equipment.interface.all %}
+                    {{ interface.name }}
+                    {% if interface.description %}{{ interface.description }}{% endif %}
+                    {% if interface.voltage %}{{ interface.voltage }}{% endif %}
+                    {% if interface.current %}{{ interface.current }}{% endif %}
+                    {% if interface.start_current %}{{ interface.start_current }}{% endif %}
+                    {% endfor %}
+                    {% endif %}
                   </div>
                 </div>
               </div>

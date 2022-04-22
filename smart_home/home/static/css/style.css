@@ -52,12 +52,15 @@
 
 .drop-doun {
     font-size: 0.8em;
-    padding-left: 40px
+    padding-left: 28px;
+    cursor: pointer;
+    font-size: 0.8em;
+    
 }
 .prestrelka span {
     float: left;
 }
 .strelka-rotate {
     transform: rotate(90deg);
-    padding: 20px;
+    /* padding: 20px; */
 }
