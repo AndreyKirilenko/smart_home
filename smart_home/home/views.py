@@ -18,10 +18,15 @@ class LandListView(ListView):
 def land_detail(request, house_id):
     """Просмотр карточки обьекта"""
     land = get_object_or_404(Land, id=house_id)
-
-
     return render(
         request, 'home/land_detail.html', {
             'land': land,
         }
+    )
+
+def viewIndex(request):
+    """"Главная"""
+    data ={'header':'Главная страница', 'message': 'Вы на главной'}
+    return render(
+        request, 'home/index_page.html', context=data
     )

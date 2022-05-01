@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block scripts %}
+<script src="{% static 'js/main.js' %}" defer ></script>
+
+ 
+{% endblock %}
+
+
+{% block title %}{{ header }}{% endblock %}
+
+{% block content %}
+
+{{ message }}
+{% endblock %}
+

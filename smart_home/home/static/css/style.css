@@ -50,17 +50,42 @@
     font-weight: bold;
 }
 
-.drop-doun {
-    font-size: 0.8em;
-    padding-left: 28px;
+.drop-doun span {
+    /* float: left; */
     cursor: pointer;
-    font-size: 0.8em;
-    
-}
-.prestrelka span {
-    float: left;
 }
 .strelka-rotate {
     transform: rotate(90deg);
     /* padding: 20px; */
 }
+.strelka-img {
+    vertical-align: baseline;
+}
+
+.form-label-group  input {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 420px;
+    padding: 45px;
+    margin: auto;
+  }
+  
+.form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+  }

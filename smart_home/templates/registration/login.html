@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+
+  {% block content %}
+  {% load static %}
+
+    {% if form.errors %}
+      <p>Неверный логин или пароль. Попробуйте еще раз.</p>
+    {% endif %}
+
+    
+    <form class="form-signin"  method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      <div class="text-center mb-4">
+        <img src="{% static 'images/login.jpg' %}" class="mb-4" alt="" >
+
+        <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
+        <p>Нам нужны данные вашего паспорта, для оформления закладной на квартиру, а так же ваш логин и пароль для входа в систему... </br>На самом деле только логин и пароль)). </br>Если не знаете где вы вообще, <a href="#">вам сюда</a></p>
+      </div>
+      {% if user.is_authenticated %}
+        <div style="margin: 0 auto; text-align: center; font-size: 1.2em;">Вы уже авторизованы</div>
+      {% else %}
+      <div class="form-label-group">
+        {{ form.username }}
+      </div>
+
+      <div class="form-label-group">
+        {{ form.password }}
+      </div>
+
+      <div class="checkbox mb-3">
+        <label>
+          <span><a href="{% url 'password_reset' %}">Забыли пароль?</a></span>
+          {% comment %} <input type="checkbox" value="remember-me"> Remember me {% endcomment %}
+        </label>
+      </div> 
+      <input type="submit" value="login" class="btn btn-lg btn-primary btn-block"/>
+      <p class="mt-5 mb-3 text-muted text-center">&copy; 2022-2022</p>
+    </form>
+    {% endif %}
+
+    {% endblock %}
+{% comment %} </body>
+</html> {% endcomment %}

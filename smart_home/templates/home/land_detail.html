@@ -30,45 +30,62 @@
   <div style="border-bottom: 1px solid #ccc; padding: 10px; overflow: auto;">
     <div style="float:left; margin:10px"><img src="{{building.image.url}}" style="height:200px"></div>
     <div style="float:left; margin:10px">
-      <div style="font-size: 1.2em">{{ building.name }}</div>
+      <div style="font-size: 1.8em">{{ building.name }}</div>
       <div style="font-size: 0.8em">{{ building.description }}</div>
       {% if building.floor != 1 %}<div>"Этажей: {{ building.floor }}</div>{% endif %}
 
       {% if building.rooms %}
       {% for room in building.rooms.all %}
-        <div style=" padding: 10px 30px; overflow: auto;">
-          <div style="font-size: 1.2em">{{ room.name }}</div>
+        <div style=" padding: 0px 30px; overflow: auto;">
+          <div class="drop-doun">
+            <span><img id="img-strelka-room-{{room.id}}" class="strelka-img" src="{% static 'images/strelka_mini.jpg' %}" /></span>
+            <span id="drop-doun-{{room.id}}" class="room drop-doun" style="font-size: 1.2em">{{ room.name }}</span>
+          </div>
+          <div id="hidden-box-room-{{room.id}}" class="not-visible" >
           <div style="font-size: 0.8em">{{ room.description }}</div>
           {% if building.floor != 1 %}<div>Этаж: {{ room.floor }}</div>{% endif %}
 
             {% if room.equipments %}
             {% for equipment in room.equipments.all %}
-              <div style="padding: 10px 30px; overflow: auto;">
-                <div style="font-size: 1.2em">{{ equipment.name }}</div>
-                <div style="font-size: 0.8em">{{ equipment.description|truncatechars:100}}</div>
-                <div style="font-size: 0.8em; padding-left: 40px">Тип: {{ equipment.type }}</div>
-                <div style="font-size: 0.8em; padding-left: 40px">Напряжение питания: {{ equipment.voltage }} В.</div>
-                <div style="font-size: 0.8em; padding-left: 40px">Потребление тока: {{ equipment.current }} Вт.</div>
-                <div style="font-size: 0.8em; padding-left: 40px">Стартовый ток: {{ equipment.start_current }} А.</div>
-                <div id="drop-doun-{{equipment.id}}" class="drop-doun" >
-                  <span style="strelka-img"><img id="img-strelka-{{equipment.id}}"  src="{% static 'images/strelka_mini.jpg' %}" /></span>
-                  Интерфейс управления: 
-                  <div id="hidden-box-{{equipment.id}}" class="not-visible" style=" padding-left: 40px">
-                    {% if equipment.interface %}
-                    {% for interface in equipment.interface.all %}
-                    {{ interface.name }}
-                    {% if interface.description %}{{ interface.description }}{% endif %}
-                    {% if interface.voltage %}{{ interface.voltage }}{% endif %}
-                    {% if interface.current %}{{ interface.current }}{% endif %}
-                    {% if interface.start_current %}{{ interface.start_current }}{% endif %}
-                    {% endfor %}
-                    {% endif %}
-                  </div>
+              <div style="padding: 0 30px; overflow: auto;">
+                <div class="drop-doun">
+                  <span ><img id="img-strelka-equipment-{{equipment.id}}" class="strelka-img" src="{% static 'images/strelka_mini.jpg' %}" /></span>
+                  <span id="drop-doun-{{equipment.id}}" class="equipment drop-doun"  style="font-size: 1.0em">{{ equipment.name }}</span>
                 </div>
+                
+                <div id="hidden-box-equipment-{{equipment.id}}" class="not-visible"  style="font-size: 0.8em; padding-left: 40px">
+                  {% if equipment.description %}<div >{{ equipment.description|truncatechars:100}}</div>{% endif %}
+                  {% if equipment.type %}<div >Тип: {{ equipment.type }}</div>{% endif %}
+                  {% if equipment.voltage %}<div >Напряжение питания: {{ equipment.voltage }} В.</div>{% endif %}
+                  {% if equipment.current %}<div >Потребление тока: {{ equipment.current }} Вт.</div>{% endif %}
+                  {% if equipment.start_current %}<div >Стартовый ток: {{ equipment.start_current }} А.</div>{% endif %}
+                  <div class="drop-doun" style="margin-left: -12px" >
+                    <span ><img id="img-strelka-interface-{{equipment.id}}" class="strelka-img" src="{% static 'images/strelka_mini.jpg' %}" /></span>
+                    <span id="drop-doun-{{equipment.id}}" class="interface drop-doun" >Интерфейс управления: </span>
+                  </div>
+                  <div id="hidden-box-interface-{{equipment.id}}" class="not-visible" >
+                      {% if equipment.interface %}
+                      {% for interface in equipment.interface.all %}
+                      <ul>
+                        <li>{{ interface.name }}</li>
+                        {% if interface.description %}<li>{{ interface.description }}</li>{% endif %}
+                        {% if interface.voltage %}<li>Напряжение: {{ interface.voltage }}</li>{% endif %}
+                        {% if interface.current %}<li>Ток: {{ interface.current }}</li>{% endif %}
+                        {% if interface.start_current %}<li>Стартоваый ток:{{ interface.start_current }}</li>{% endif %}
+                      </ul>
+                      {% endfor %}
+                      {% endif %}
+                    </div>
+                  
+                  
+                </div>
+                
               </div>
             {% endfor %}
             {% endif %}
-        </div>
+            </div>
+          </div>
+      
       {% endfor %}
       {% endif %}
     </div>
