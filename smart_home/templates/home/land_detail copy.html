@@ -26,28 +26,27 @@
 
 {% if land.buildings %}
   {% for building in land.buildings.all %}
-  <div style="float:left; margin:10px"><img src="{{building.image.url}}" style="height:100px"></div>
-  <div style="font-size: 1.8em">{{ building.name }}</div>
-  <div class="description">{{ building.description }}</div>
-  {% if building.floor != 1 %}<div class="description">"Этажей: {{ building.floor }}</div>{% endif %}
-  <table style="width:100%; margin: 20px 0 20px 0;">
-    {% if building.rooms %}
+  
+  <div style="border-bottom: 1px solid #ccc; padding: 10px; overflow: auto;">
+    <div style="float:left; margin:10px"><img src="{{building.image.url}}" style="height:100px"></div>
+    <div style="float:left; margin:10px">
+      <div style="font-size: 1.8em">{{ building.name }}</div>
+      <div style="font-size: 0.8em">{{ building.description }}</div>
+      {% if building.floor != 1 %}<div>"Этажей: {{ building.floor }}</div>{% endif %}
+
+      {% if building.rooms %}
       {% for room in building.rooms.all %}
-      <tr style="background-color: #ececec;">
-        <td class="title room"><h5>{{ room.name }}</h5></td>
-        <td></td>
-      </tr>
-        <tr>
-          <td class="description room">{{ room.description }}
-            {% if building.floor != 1 %}<div>Этаж: {{ room.floor }}</div>{% endif %}
-          </td>
-          
-          <td></td>
-        </tr>
-        {% if room.equipments %}
-          {% for equipment in room.equipments.all %}
-          <tr style="border-bottom: 1px solid #ccc">
-            <td>
+        <div style=" padding: 0px 30px; overflow: auto;">
+          <div class="drop-doun">
+            <span><img id="img-strelka-room-{{room.id}}" class="strelka-img" src="{% static 'images/strelka_mini.jpg' %}" /></span>
+            <span id="drop-doun-{{room.id}}" class="room drop-doun" style="font-size: 1.2em">{{ room.name }}</span>
+          </div>
+          <div id="hidden-box-room-{{room.id}}" class="not-visible" >
+          <div style="font-size: 0.8em">{{ room.description }}</div>
+          {% if building.floor != 1 %}<div>Этаж: {{ room.floor }}</div>{% endif %}
+
+            {% if room.equipments %}
+            {% for equipment in room.equipments.all %}
               <div style="padding: 0 30px; overflow: auto;">
                 <div class="drop-doun">
                   <span ><img id="img-strelka-equipment-{{equipment.id}}" class="strelka-img" src="{% static 'images/strelka_mini.jpg' %}" /></span>
@@ -72,53 +71,38 @@
                           <strong>
                             {{ control.interface.name }}
                           </strong>
+                          {% for association in control.interface.associstions.all %}
+                            {% for output in association.device_output.all %}
+                              {% for device in output.devices_out.all %}
+                                {{ device }}
+                              {%endfor%}
+                            {%endfor%}
+                          {%endfor%}
                         </li>
                         {% if control.quantity > 1 %}<li>Количество: <strong>{{ control.quantity }}</strong></li>{% endif %}
                         {% if control.interface.description %}<li>{{ control.interface.description }}</li>{% endif %}
-                        {% if control.interface.voltage %}<li>Управляющее напряжение: {{ control.interface.voltage }}В</li>{% endif %}
-                        {% if control.interface.start_current %}<li>Усредненный множитель стартового тока: {{ control.interface.start_current }}:  ({{ control.equipment.current }}/{{ control.equipment.voltage }})*10=12,4A</li>{% endif %}
-                        {% if control.interface.image %}<img src="{{control.interface.image.url}}" style="height:200px">{% endif %}
+                        {% if control.interface.voltage %}<li>Напряжение: {{ control.interface.voltage }}В</li>{% endif %}
+                        {% if control.interface.current %}<li>Ток: {{ control.interface.current }}А</li>{% endif %}
+                        {% if control.interface.start_current %}<li>Стартоваый ток:{{ control.interface.start_current }}А</li>{% endif %}
                       </ul>
                       {% endfor %}
                       {% endif %}
                     </div>
                 </div>
               </div>
-
-
-
-            </td>
-            <td style="vertical-align: top; width: 30%">
-              <div>
-                {% for control in equipment.quantity_interfaces.all %}
-                  {% for association in control.interface.associstions.all %}
-                    {% for output in association.device_output.all %}
-                      {% for device in output.devices_out.all %}
-                        <a href="{% url "device_detail" device.slug %}"> {{ device }} </a>
-                      {%endfor%}
-                    {%endfor%}
-                  {%endfor%}
-                {%endfor%}
-              </div>
-            </td>
-          </tr>
-
-
-            
-          {% endfor %}
-        {% endif %}
+            {% endfor %}
+            {% endif %}
+            </div>
+          </div>
       {% endfor %}
-    {% endif %}
-  
-
-  </table>
-  
-  
-    {% comment %} {% if list_device %} {% endcomment %}
-      {% comment %} <div style="float: right; display: block; width: 300px;"> {% endcomment %}
-      {% comment %} </div> {% endcomment %}
+      {% endif %}
+    </div>
+    
+    {% if list_device %}
+      <div style="float: right; display: block; width: 300px;">
+        
       
-    {% comment %} {% endif%} {% endcomment %}
+    {% endif%}
         
     <string>Используемые интерфейсы:</string></br>
     {% if building.rooms %}
@@ -134,10 +118,10 @@
         {% endif %}
       {% endfor %}
     {% endif %}
+  </div>
+  </div>
   {% endfor %}
 {% endif %}
-
-
 <div style="border-bottom: 1px solid #ccc; padding: 10px; overflow: auto;">
   <div style="float: right; display: block; width: 300px;">
     <string>Все интерфейсы этого участка: </string>

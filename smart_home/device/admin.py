@@ -21,6 +21,7 @@ class DeviceAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter = ('name', 'specific',)
     ordering = ('name',)
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(Interface)

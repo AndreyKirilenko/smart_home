@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SmartSystem, Location, Tag, ControlInterface, Land, Building, Room, Equipment
+from .models import SmartSystem, Location, Tag, ControlInterface, Land, Building, Room, Equipment, Association
 # from device.models import Device, Interface, Pins
 
 
@@ -35,7 +35,7 @@ class TagAdmin(admin.ModelAdmin):
 @admin.register(ControlInterface)
 class ControlInterfaceAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'description', 'voltage', 'current', 'start_current',
+        'name', 'description', 'voltage', 'start_current',
     )
     search_fields = ('name',)
     ordering = ('name',)
@@ -73,11 +73,27 @@ class RoomAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
 
+class InterfaceInline(admin.TabularInline):
+    model = Equipment.control.through
+    extra = 1
+
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'type',  
+        'name', 'model', 'type', 'author'  
     )
-    search_fields = ('name',)
-    list_filter = ('type', 'name', 'specific', 'location', 'interface')
+    inlines = [InterfaceInline]
+    search_fields = ('name', 'model')
+    list_filter = ('type', 'name', 'specific', 'location', 'control', 'author')
     ordering = ('name',)
+    prepopulated_fields = {"slug": ("name", "model", )}
+
+
+@admin.register(Association)
+class AssociationAdmin(admin.ModelAdmin):
+    list_display = (
+        'equipment_interface', 'device_interface'  
+    )
+    # search_fields = ('name', 'model')
+    # list_filter = ('type', 'name', 'specific', 'location', 'interface', 'author')
+    # ordering = ('name',)

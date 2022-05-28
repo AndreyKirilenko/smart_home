@@ -27,7 +27,7 @@
             <a class="nav-link dropdown-toggle" href="#" id="dropdown07XL" data-toggle="dropdown" aria-expanded="false">Личный кабинет</a>
             <div class="dropdown-menu" aria-labelledby="dropdown07XL">
               <a class="dropdown-item" href="#">Профиль</a>
-              <a class="dropdown-item" href="{% url "list_home" %}">Мои Умные Дома</a>
+              <a class="dropdown-item" href="{% url "list_home" user.username %}">Мои Умные Дома</a>
               <a class="dropdown-item" href="{% url 'logout'%}?next={{request.path}}">Выход</a>
             </div>
           </li>

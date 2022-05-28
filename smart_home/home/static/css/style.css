@@ -89,3 +89,18 @@
     position: relative;
     margin-bottom: 1rem;
   }
+.room{
+    padding-left: 0px;
+    /* font-size: 1.2em; */
+    /* font-weight: bold; */
+}
+.equipment{
+    /* padding-left: 30px; */
+}
+.description{
+    font-size: 0.8em;
+}
+.description-equipment{
+    padding-left: 40px;
+    font-size: 0.8em;
+}

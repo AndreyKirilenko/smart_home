@@ -81,7 +81,7 @@
         {% if outputs %}
         <tr><td colspan=2 style="text-align: center; background-color: #e9ecef;"><strong>Выходы</strong></td></tr>
         {% for output in outputs %}
-        <tr><td>Колличество выходов:</td><td>{{ output.quantity }}</td></tr>
+        
         <tr><td>Тип:</td><td>{{ output.pin.type }}</td></tr>
         <tr><td>Колличество выходов:</td><td>{{ output.quantity }}</td></tr>
             {% if output.pin.voltage_ac %}<tr><td>Максимальное переменное напряжение (AC):</td><td>{{ output.pin.voltage_ac }}В</td></tr>{% endif %}

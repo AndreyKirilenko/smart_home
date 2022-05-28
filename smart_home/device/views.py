@@ -11,9 +11,9 @@ class DeviceListView(ListView):
     template_name = 'device/device_list.html'
 
 
-def device_view(request, device_id):
+def device_view(request, slug):
     """Просмотр карточки прибора"""
-    device = get_object_or_404(Device, id=device_id)
+    device = get_object_or_404(Device, slug=slug)
     outputs = QuantityOutput.objects.filter(device=device)
     inputs = QuantityInput.objects.filter(device=device)
 

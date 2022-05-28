@@ -18,10 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from user import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('device/', include('device.urls')),
     path('', include('home.urls')),
     path('user/', include('django.contrib.auth.urls')),
+    # path("404/", views.page_not_found, name='404'),
+    # path("500/", views.server_error, name='500'),
+
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handler404 = 'user.views.page_not_found'
+handler500 = 'user.views.server_error'
+# handler403 = 'my_app_name.views.custom_permission_denied_view'
+# handler400 = 'my_app_name.views.custom_bad_request_view'

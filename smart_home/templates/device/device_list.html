@@ -27,7 +27,7 @@
 
         <tr>
           <td><img src="{{device.image.url}}" style="height:50px"></td>
-          <td><a href="{% url "device_detail" device.id %}">{{device.name}}</a></td>
+          <td><a href="{% url "device_detail" device.slug %}">{{device.name}}</a></td>
           <td>{{device.short_description}}</td>
           <td>#</td>
           <td style="font-size: 0.8em;">{% for specific in device.specific.all %}

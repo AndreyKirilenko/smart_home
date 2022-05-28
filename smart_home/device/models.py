@@ -2,6 +2,7 @@ from tabnanny import verbose
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.contrib.auth import get_user_model
+from django.forms import SlugField
 User = get_user_model()
 
 
@@ -65,7 +66,7 @@ class Output(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return f'{self.type} {self.voltage_ac}В {self.nominal_current}А(ном) {self.starting_current}А(старт)'
+        return f'{self.name} {self.voltage_ac}В {self.nominal_current}А(ном) {self.starting_current}А(старт)'
 
 
 class Input(models.Model):
@@ -107,8 +108,9 @@ class Interface(models.Model):
 
 class Device(models.Model):
     """SmartHome устройство"""
-    image = models.ImageField(verbose_name='Изображение', upload_to='device/image/', default='default_device.jpg', blank=True, null=True)
+    image = models.ImageField(verbose_name='Изображение', upload_to='device/image/', default='device/image/default_device.jpg', blank=True, null=True)
     name = models.CharField(max_length=100, verbose_name='Название устрройства', unique=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="slug URL")
     short_description = models.TextField(max_length=200, verbose_name='Краткое описание')
     description = models.TextField(max_length=500, verbose_name='Полное описание')
     specific = models.ManyToManyField(SmartSystem, blank=True,  related_name='devices', verbose_name='К какой системе относится')
@@ -131,7 +133,7 @@ class Device(models.Model):
     interface = models.ManyToManyField(Interface, blank=True, verbose_name='Интерфейс', related_name='devices')
     unit = models.IntegerField(default=0, verbose_name='Количество юнитов занимаемое устройством')
     voltage = models.IntegerField(default=0, verbose_name='Напряжение питания В')
-    current = models.IntegerField(default=0, verbose_name='Потребление тока Вт')
+    current = models.FloatField(default=0, verbose_name='Потребление тока Вт')
     price = models.IntegerField(default=0, verbose_name='Цена Р')
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='devices')
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, null=True, related_name='devices')
